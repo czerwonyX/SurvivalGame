@@ -6,6 +6,13 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour
 {
     Vector2 lastTouchPosition;
+    float cameraSensitivity = (30f / 100);
+    Camera cam;
+    float yRotation;
+    private void Awake()
+    {
+        cam = Camera.main;
+    }
     private void Start()
     {
         
@@ -24,13 +31,28 @@ public class CameraController : MonoBehaviour
                     }
                     else if (touch.phase == TouchPhase.Moved)
                     {
-                        Vector2 touchMove = touch.position - lastTouchPosition;
-                        transform.Rotate(new Vector3(0, touchMove.x, 0));
+                        float posX = (touch.position.x - lastTouchPosition.x) * cameraSensitivity;
+                        float posY = (touch.position.y - lastTouchPosition.y) * cameraSensitivity;
+                        // camera X
+                        transform.Rotate(0, posX, 0);
+
+                        // Camera Y
+                        yRotation -= posY;
+                        yRotation = Mathf.Clamp(yRotation, -90, 90);
+                        cam.transform.localRotation = Quaternion.Euler(yRotation,0, 0);
+                        
                         lastTouchPosition = touch.position;
                         break;
                     }
                 }
             }
         }
+    }
+    float ClampAngle(float angle, float from, float to)
+    {
+        // accepts e.g. -80, 80
+        if (angle < 0f) angle = 360 + angle;
+        if (angle > 180f) return Mathf.Max(angle, 360 + from);
+        return Mathf.Min(angle, to);
     }
 }
