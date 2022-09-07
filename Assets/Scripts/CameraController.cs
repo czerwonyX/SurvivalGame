@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     float yRotation;
     private void Awake()
     {
-        cam = Camera.main;
+        cam = FindObjectOfType<Camera>();
     }
     private void Start()
     {

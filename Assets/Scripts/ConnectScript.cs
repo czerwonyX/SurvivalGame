@@ -24,7 +24,7 @@ public class ConnectScript : MonoBehaviourPunCallbacks
         Screen.sleepTimeout = 300;
 
         PhotonNetwork.SendRate = 40;
-        PhotonNetwork.SerializationRate = 60;
+        PhotonNetwork.SerializationRate = 10;
 
         connectButton.onClick.AddListener(Connect);
     }
