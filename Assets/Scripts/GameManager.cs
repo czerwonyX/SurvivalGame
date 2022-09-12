@@ -18,24 +18,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button moveButtonForward;
     [SerializeField] Button moveButtonRight;
     [SerializeField] Button moveButtonLeft;
-    [SerializeField] Button moveButtonBack; // 472.6099  91.77875  473.6458   
-    Vector2 posMin = new Vector2(60f, 43);
-    Vector2 posMax = new Vector2(472,473);
+    [SerializeField] Button moveButtonBack;
+    [SerializeField] Button jumpButton;
+    Vector2 posMin = new Vector2(230, 125);   // 60, 43
+    Vector2 posMax = new Vector2(400,349);   // 472,473
     bool moveForward;
     bool moveBack;
     bool moveRight;
     bool moveLeft;
+    bool isJumping;
     private void Awake()
     {
         float x = Random.Range(posMin.x, posMax.x);
         float y = Random.Range(posMin.y, posMax.y);
         GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(x, 93, y), Quaternion.identity);
-
+        PhotonNetwork.LocalPlayer.TagObject = player;
         Camera cam = FindObjectOfType<Camera>();
         print(cam);
         print(player);
         cam.transform.parent = player.transform;
         cam.transform.localPosition = new Vector3(0, 0.47f, 0.6f);
+        cam.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
 
         //Forward
@@ -54,11 +57,20 @@ public class GameManager : MonoBehaviour
         AddOnPointerUpToButton(moveButtonLeft, PointerLeftUp);
         AddOnPointerDownToButton(moveButtonLeft, PointerLeftDown);
 
+        // Jump
+        AddOnPointerUpToButton(jumpButton, delegate { isJumping = false; });
+        AddOnPointerDownToButton(jumpButton, delegate { isJumping = true; });
+
     }
     private void Update()
     {
         playerMove.x = (moveRight ? 1 : 0) + (moveLeft ? -1 : 0);
         playerMove.y = (moveForward ? 1 : 0) + (moveBack ? -1 : 0);
+
+        if (isJumping)
+        {
+            ((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerController>().Jump();
+        }
     }
 
 
