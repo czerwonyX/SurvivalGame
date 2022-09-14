@@ -20,7 +20,7 @@ public class ConnectScript : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Dropdown regionDropDown;
     public void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = -1;
         Screen.sleepTimeout = 300;
 
         PhotonNetwork.SendRate = 40;

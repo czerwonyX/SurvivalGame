@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button moveButtonLeft;
     [SerializeField] Button moveButtonBack;
     [SerializeField] Button jumpButton;
-    Vector2 posMin = new Vector2(230, 125);   // 60, 43
-    Vector2 posMax = new Vector2(400,349);   // 472,473
+    Vector2 posMin = new Vector2(-360, 1095);   // 60, 43
+    Vector2 posMax = new Vector2(860,1800);   // 472,473
     bool moveForward;
     bool moveBack;
     bool moveRight;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         float x = Random.Range(posMin.x, posMax.x);
         float y = Random.Range(posMin.y, posMax.y);
-        GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(x, 93, y), Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(x, 130, y), Quaternion.identity);
         PhotonNetwork.LocalPlayer.TagObject = player;
         Camera cam = FindObjectOfType<Camera>();
         print(cam);

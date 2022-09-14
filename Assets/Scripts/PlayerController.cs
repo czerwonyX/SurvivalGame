@@ -20,17 +20,15 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         view = GetComponent<PhotonView>();
     }
-
     public void FixedUpdate()
     {
         if (!view.IsMine) return;
 
-        GameManager.playerMove *= moveSpeed;
         print($"{GameManager.playerMove} move");
         print(moveSpeed + "speed");
         //   rb.velocity = transform.forward * GameManager.playerMove.y;
         //  rb.velocity += transform.right * GameManager.playerMove.x;
-        characterController.Move((transform.forward * GameManager.playerMove.y) + (transform.right * GameManager.playerMove.x));
+        print(Time.fixedDeltaTime);
     }
     public void Update()
     {
@@ -49,12 +47,25 @@ public class PlayerController : MonoBehaviour
         //    velocity.y = Mathf.Sqrt(jumpForce * -2 * Physics.gravity.y);
         //}
         velocity.y += Physics.gravity.y * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+
+        Vector3 move;
+        move.x = GameManager.playerMove.x * moveSpeed;
+        move.y = velocity.y;
+        move.z = GameManager.playerMove.y * moveSpeed;
+        //characterController.Move(((transform.forward * GameManager.playerMove.y)
+        //    + (transform.right * GameManager.playerMove.x))
+        //    * Time.deltaTime);
+        characterController.Move(move * Time.deltaTime);
+        
+        //characterController.Move(velocity * Time.deltaTime);
     }
     public void Jump()
     {
         if (isGrounded)
             velocity.y = Mathf.Sqrt(jumpForce * -2 * Physics.gravity.y);
     }
+
+    public void setMoveSpeed(float value) => moveSpeed = value;
+    public float getMoveSpeed() => moveSpeed;
 
 }
