@@ -15,11 +15,14 @@ public class GameManager : MonoBehaviour
     // TODO: 
 
     public static Vector2 playerMove;
+    [Header("Movement")]
     [SerializeField] Button moveButtonForward;
     [SerializeField] Button moveButtonRight;
     [SerializeField] Button moveButtonLeft;
     [SerializeField] Button moveButtonBack;
     [SerializeField] Button jumpButton;
+    [Header("Trees")]
+    [SerializeField] Transform treesParent;
     Vector2 posMin = new Vector2(-360, 1095);   // 60, 43
     Vector2 posMax = new Vector2(860,1800);   // 472,473
     bool moveForward;
@@ -32,7 +35,14 @@ public class GameManager : MonoBehaviour
         float x = Random.Range(posMin.x, posMax.x);
         float y = Random.Range(posMin.y, posMax.y);
         GameObject player = PhotonNetwork.Instantiate("Player", new Vector3(x, 130, y), Quaternion.identity);
-        PhotonNetwork.LocalPlayer.TagObject = player;
+        var localPlayer = PhotonNetwork.LocalPlayer;
+        localPlayer.TagObject = player;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var hash = localPlayer.CustomProperties;
+            hash.Add("treesCut", 0);
+            localPlayer.SetCustomProperties(hash);
+        }
         Camera cam = FindObjectOfType<Camera>();
         print(cam);
         print(player);
@@ -61,6 +71,20 @@ public class GameManager : MonoBehaviour
         AddOnPointerUpToButton(jumpButton, delegate { isJumping = false; });
         AddOnPointerDownToButton(jumpButton, delegate { isJumping = true; });
 
+    }
+    private void Start()
+    {
+        //Debug.LogError(GameObject.Find("Trees").transform.childCount);
+        //Debug.LogError(GameObject.Find("Trees").transform);
+        //Debug.LogError(GameObject.FindGameObjectWithTag("Tree").transform.parent);
+        //Destroy(GameObject.Find("Trees"));
+        foreach (Transform treeObject in treesParent)
+        {
+            TreeScript tree = treeObject.GetComponent<TreeScript>();
+            int index = TreeScript.trees.Count;
+            TreeScript.trees.Add(index, tree);
+            tree.index = index;
+        }
     }
     private void Update()
     {

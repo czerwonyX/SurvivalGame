@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using Photon.Pun;
+using TMPro;
 
 public class DebugScript : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class DebugScript : MonoBehaviour
     [SerializeField] Button flyButton;
     [SerializeField] Button flyButtonUp;
     [SerializeField] Button flyButtonDown;
+    [SerializeField] TMP_Text fpsText;
     UniversalRenderPipelineAsset urp;
     bool isFlying;
     float defaultGravity;
@@ -36,6 +38,14 @@ public class DebugScript : MonoBehaviour
         flyButton.onClick.AddListener(ToggleFly);
         flyButtonUp.onClick.AddListener(FlyUp);
         flyButtonDown.onClick.AddListener(FlyDown);
+
+        StartCoroutine(fpsRefreshCorutine());
+    }
+    private IEnumerator fpsRefreshCorutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        fpsText.text = "FPS: " + (int)(1 / Time.unscaledDeltaTime);
+        StartCoroutine(fpsRefreshCorutine());
     }
     private void ToggleShadows()
     {

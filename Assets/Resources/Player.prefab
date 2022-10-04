@@ -43,13 +43,15 @@ GameObject:
   - component: {fileID: 2050729568692090440}
   - component: {fileID: 2050729568692090447}
   - component: {fileID: 2050729568692090452}
+  - component: {fileID: 1983178500818472644}
   - component: {fileID: 7903547409683574683}
   - component: {fileID: 2050729568692090443}
+  - component: {fileID: -4700512906448640986}
   - component: {fileID: 2050729568692090454}
   - component: {fileID: 2050729568692090453}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,6 +152,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1983178500818472644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050729568692090445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f339e98a95d4af6479eab04f46ce46dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &7903547409683574683
 CharacterController:
   m_ObjectHideFlags: 0
@@ -180,6 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 173e59d9d0c48784fa954bd578ee4a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4700512906448640986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050729568692090445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76987ac9db042384fac045b41f8b1e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 0}
 --- !u!114 &2050729568692090454
 MonoBehaviour:
   m_ObjectHideFlags: 0
